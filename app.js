@@ -3,13 +3,17 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const exphbs = require('express-handlebars')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
+const PORT = process.env.PORT || 3000
 const app = express();
-
 // view engine setup
+app.engine('hbs', exphbs({ 
+  extname: '.hbs',
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers')
+}))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -37,5 +41,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(PORT, () => {
+  console.log(`This server is listening to http://localhost:${PORT}`)
+})
 
 module.exports = app;
