@@ -6,14 +6,12 @@ const PAGE_OFFSET = 0;
 
 module.exports = {
   getCart: async (req, res) => {
-    console.log(req.session)
     let cart = await Cart.findByPk(req.session.cartId, { 
       include: 'items' 
     })
 
     cart = cart ? cart.toJSON() : { items: [] }
-    const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b)=> a + b) : 0
-      
+    const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
     return res.render('cart', { cart, totalPrice })
   },
 
@@ -36,8 +34,28 @@ module.exports = {
     const updatedCartItem = await cartItem.update({ 
       quantity: (cartItem.quantity || 0) + 1
     })
-
     req.session.cartId = cart.id
     return req.session.save(() => res.redirect('back'))
   },
+
+  addCartItem: async (req, res) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({ quantity: cartItem.quantity + 1 })
+    return res.redirect('back')
+  },
+
+  subCartItem: async (req, res) => {
+    const cartItem = await CartItem.findByPk(req.params.id)
+    await cartItem.update({
+      quantity: cartItem.quantity - 1 > 0 ? cartItem.quantity - 1 : 1,
+    })
+    return res.redirect('back')
+  },
+
+  deleteCartItem: async (req, res) => {
+  const cartItem = await CartItem.findByPk(req.params.id)
+  await cartItem.destroy()
+  return res.redirect('back')
+  },
+
 }
