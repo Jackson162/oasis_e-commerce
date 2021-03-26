@@ -85,6 +85,23 @@ module.exports = {
       payment_status: '-1'
     })
     return res.redirect('back')
+  },
+
+  getPayment: (req, res) => {
+    console.log('===== getPayment =====')
+    console.log(req.params.id)
+    console.log('==========')
+
+    return Order.findByPk(req.params.id, {}).then(order => {
+      return res.render('payment', {order})
+    })
+  },
+  spgatewayCallback: (req, res) => {
+    console.log('===== spgatewayCallback =====')
+    console.log(req.body)
+    console.log('==========')
+
+    return res.redirect('back')
   }
 
 }
