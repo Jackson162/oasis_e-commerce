@@ -1,10 +1,11 @@
 const crypto = require("crypto")
 const nodemailer = require('nodemailer')
+const getTradeInfo = require('../utils/getTradeInfo')
+const create_mpg_aes_decrypt = require('../utils/create_mpg_aes_decrypt')
 const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
-const getTradeInfo = require('../utils/getTradeInfo')
 const testMail = process.env.MY_MAIL
 
 const transporter = nodemailer.createTransport({
@@ -28,7 +29,7 @@ module.exports = {
     // find the cart of the user
     let cart = Cart.findByPk(cartId, { include: 'items' })
     //create an order
-    let sn = ''
+    let sn = '' //in tutorial, sn created when going into payment page (before submitting data)
     let existedOrder = ''
     do {
       sn = await crypto.randomBytes(8).toString("hex")
@@ -94,16 +95,21 @@ module.exports = {
     console.log('==========')
     let order = await Order.findByPk(req.params.id)
     order = order.toJSON()
-    console.log(order)
     const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, order.sn)
     return res.render('payment', { order,  tradeInfo})
 
   },
 
-  spgatewayCallback: (req, res) => {
-    console.log('===== spgatewayCallback =====')
-    console.log(req.body)
+  spgatewayCallback: async (req, res) => {
+    console.log('===== spgatewayCallback: TradeInfo =====')
+    console.log(req.body.TradeInfo)
     console.log('==========')
+
+    const data = JSON.parse(create_mpg_aes_decrypt(req.body.TradeInfo))
+    console.log('decrypted data: ', data)
+
+    let order = await Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } })
+    order.update({ payment_status: 1 })
 
     return res.redirect('/orders')
   }

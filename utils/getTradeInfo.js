@@ -3,7 +3,7 @@ const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
 const MerchantID = process.env.MERCHANT_ID
 
-const BaseURL = 'https://a71f60945887.ngrok.io'
+const BaseURL = process.env.BASE_URL
 const PayGateWay = 'https://ccore.spgateway.com/MPG/mpg_gateway'
 const ReturnURL = BaseURL + '/spgateway/callback?from=ReturnURL'
 const NotifyURL = BaseURL + '/spgateway/callback?from=NotifyURL'
