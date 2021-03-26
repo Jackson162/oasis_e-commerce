@@ -1,15 +1,16 @@
-const db = require('../models')
+const crypto = require("crypto")
 const nodemailer = require('nodemailer')
+const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
-const crypto = require("crypto");
-
+const getTradeInfo = require('../utils/getTradeInfo')
+const testMail = process.env.MY_MAIL
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.MY_MAIL,
+    user: testMail,
     pass: process.env.MY_PASS
   }
 })
@@ -87,21 +88,24 @@ module.exports = {
     return res.redirect('back')
   },
 
-  getPayment: (req, res) => {
+  getPayment: async (req, res) => {
     console.log('===== getPayment =====')
     console.log(req.params.id)
     console.log('==========')
+    let order = await Order.findByPk(req.params.id)
+    order = order.toJSON()
+    console.log(order)
+    const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, order.sn)
+    return res.render('payment', { order,  tradeInfo})
 
-    return Order.findByPk(req.params.id, {}).then(order => {
-      return res.render('payment', {order})
-    })
   },
+
   spgatewayCallback: (req, res) => {
     console.log('===== spgatewayCallback =====')
     console.log(req.body)
     console.log('==========')
 
-    return res.redirect('back')
+    return res.redirect('/orders')
   }
 
 }
