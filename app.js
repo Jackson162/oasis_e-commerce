@@ -9,7 +9,6 @@ const exphbs = require('express-handlebars')
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
 const PORT = process.env.PORT || 3000
 const app = express()
 // view engine setup
@@ -38,7 +37,7 @@ app.use(session({
 }))
 
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

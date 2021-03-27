@@ -4,6 +4,7 @@ const router = express.Router();
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
+const userController = require('../controllers/userController')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,4 +26,6 @@ router.post('/order/:id/cancel', orderController.cancelOrder)
 router.get('/order/:id/payment', orderController.getPayment)
 router.post('/spgateway/callback', orderController.spgatewayCallback)
 
+router.get('/signup', userController.signUpPage)
+router.post('/signup', userController.signUp)
 module.exports = router
