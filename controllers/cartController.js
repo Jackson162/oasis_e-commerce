@@ -1,14 +1,16 @@
 const db = require('../models')
 const Cart = db.Cart
 const CartItem = db.CartItem
+const Product = db.Product
 
 module.exports = {
   getCart: async (req, res) => {
-    let cart = await Cart.findByPk(req.session.cartId, { 
-      include: 'items' 
+    let [cart, ifCartCreated] = await Cart.findOrCreate({
+      where: { id: req.session.cartId || 0 },
+      include: [{ model: Product, as: 'items' }]
     })
-
-    cart = cart ? cart.toJSON() : { items: [] }
+    cart = cart.toJSON()
+    if(!cart.items) cart.items = []
     const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
     return res.render('cart', { cart, totalPrice })
   },

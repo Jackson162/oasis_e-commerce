@@ -6,6 +6,7 @@ const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
+const Payment = db.Payment
 const testMail = process.env.MY_MAIL
 
 const transporter = nodemailer.createTransport({
@@ -114,7 +115,22 @@ module.exports = {
     console.log('decrypted data: ', data)
 
     let order = await Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } })
-    order.update({ payment_status: 1 })
+    await order.update({ payment_status: 1 })
+
+    let payment = await Payment.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } })
+    if (!payment) {
+      const PayTimeArr = data['Result']['PayTime'].split('')
+      PayTimeArr.splice(10, 0, ' ')
+      const PayTime = new Date(PayTimeArr.join(''))
+  
+      await Payment.create({
+        OrderId: order.id,
+        sn: data['Result']['MerchantOrderNo'],
+        amount: data['Result']['Amt'],
+        payment_method: data['Result']['PaymentMethod'],
+        paid_at: PayTime
+      })
+    }
 
     return res.redirect('/orders')
   }
