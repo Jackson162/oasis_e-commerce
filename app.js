@@ -9,6 +9,7 @@ const exphbs = require('express-handlebars')
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const indexRouter = require('./routes/index')
+const passport = require('./config/passport')
 const PORT = process.env.PORT || 3000
 const app = express()
 // view engine setup
@@ -20,14 +21,6 @@ app.engine('hbs', exphbs({
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
 
-app.use(flash())
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(methodOverride('_method'))
-app.use(cookieParser(process.env.SESSION_SECRET))
-app.use(express.static(path.join(__dirname, 'public')))
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   name: 'Jackson',
@@ -35,6 +28,23 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }))
+app.use(flash())
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(methodOverride('_method'))
+app.use(cookieParser(process.env.SESSION_SECRET))
+app.use(express.static(path.join(__dirname, 'public')))
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.isAuthenticated() 
+  res.locals.user = req.user //added into req when deserialized
+  res.locals.success_msg = req.flash('success_msg')  // 設定 success_msg 訊息
+  res.locals.warning_msg = req.flash('warning_msg')  // 設定 warning_msg 訊息
+  next()
+})
 
 app.use('/', indexRouter)
 
