@@ -32,19 +32,11 @@ module.exports = {
     // find the cart of the user
     let cart = Cart.findByPk(cartId, { include: 'items' })
     //create an order
-    let sn = '' //in tutorial, sn created when going into payment page (before submitting data)
     let existedOrder = ''
-    do {
-      sn = await crypto.randomBytes(8).toString("hex")
-      console.log(sn)
-      existedOrder = await Order.findOne({ where: { sn } })
-    } while (existedOrder)
 
-    
     let order = Order.create({
       UserId,
       name,
-      sn,
       address, 
       phone, 
       shipping_status, 
@@ -100,8 +92,14 @@ module.exports = {
     console.log(req.params.id)
     console.log('==========')
     let order = await Order.findOne({ where: { id: req.params.id, UserId } })
-    order = order.toJSON()
-    const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, order.sn)
+    let sn = null
+    do {
+      sn = await crypto.randomBytes(8).toString("hex")
+      console.log(sn)
+      existedOrder = await Order.findOne({ where: { sn } })
+    } while (existedOrder)
+    const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, sn)
+    await order.update({ sn: tradeInfo['MerchantOrderNo'] })
     return res.render('payment', { order,  tradeInfo })
 
   },
