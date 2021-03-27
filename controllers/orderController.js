@@ -18,12 +18,14 @@ const transporter = nodemailer.createTransport({
 
 module.exports = {
   getOrders: async (req, res) => {
-    let orders = await Order.findAll({ include: 'items' })
+    const { id:UserId } = req.user
+    let orders = await Order.findAll({ where: { UserId }, include: 'items' })
     orders = JSON.parse(JSON.stringify(orders))
     return res.render('orders', { orders })
   },
 
   postOrder: async (req, res) => {
+    const { id:UserId } = req.user
     const { cartId, name, address, phone, email, shipping_status, payment_status, amount } = req.body
     const dataInProcessing = []
     // find the cart of the user
@@ -39,6 +41,7 @@ module.exports = {
 
     
     let order = Order.create({
+      UserId,
       name,
       sn,
       address, 
@@ -80,7 +83,8 @@ module.exports = {
   },
 
   cancelOrder: async (req, res) => {
-    const order = await Order.findByPk(req.params.id)
+    const { id:UserId } = req.user
+    const order = await Order.findOne({ where: { id: req.params.id, UserId } })
     await order.update({
       ...req.body,
       shipping_status: '-1',
@@ -90,13 +94,14 @@ module.exports = {
   },
 
   getPayment: async (req, res) => {
+    const { id:UserId } = req.user
     console.log('===== getPayment =====')
     console.log(req.params.id)
     console.log('==========')
-    let order = await Order.findByPk(req.params.id)
+    let order = await Order.findOne({ where: { id: req.params.id, UserId } })
     order = order.toJSON()
     const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, order.sn)
-    return res.render('payment', { order,  tradeInfo})
+    return res.render('payment', { order,  tradeInfo })
 
   },
 

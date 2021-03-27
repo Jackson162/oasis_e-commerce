@@ -21,6 +21,7 @@ module.exports = {
         return res.redirect('/signup')
       } else {
         await User.create({
+          role: 'user',
           name: name,
           email: email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)

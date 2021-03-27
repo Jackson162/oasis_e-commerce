@@ -10,9 +10,7 @@ const passport = require('../config/passport')
 const { checkIfUser, checkIfAdmin } = require('../utils/authenticators')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', (req, res, next) => res.redirect('/products'))
 
 router.get('/products', checkIfUser, productController.getProducts)
 

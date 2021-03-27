@@ -1,8 +1,6 @@
 const db = require('../models')
 const Cart = db.Cart
 const CartItem = db.CartItem
-const PAGE_LIMIT = 10;
-const PAGE_OFFSET = 0;
 
 module.exports = {
   getCart: async (req, res) => {
