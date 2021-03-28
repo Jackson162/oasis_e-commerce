@@ -31,8 +31,7 @@ module.exports = {
     const dataInProcessing = []
     // find the cart of the user
     let cart = Cart.findByPk(cartId, { include: 'items' })
-    //create an order
-    let existedOrder = ''
+    //create an order without sn
 
     let order = Order.create({
       UserId,

@@ -5,6 +5,7 @@ const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
 const userController = require('../controllers/userController')
+const adminController = require('../controllers/adminController')
 
 const passport = require('../config/passport')
 const { checkIfUser, checkIfAdmin } = require('../utils/authenticators')
@@ -31,4 +32,10 @@ router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
+router.post('/signout', userController.signOut)
+
+// admin
+router.get('/admin/signin', adminController.signInPage)
+router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '/admin/signin', failureFlash: true }), adminController.signIn)
+
 module.exports = router

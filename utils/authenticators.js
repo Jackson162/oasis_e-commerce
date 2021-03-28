@@ -1,9 +1,13 @@
 const authenticator = (req, res, next, role) => {
-  if (!req.isAuthenticated()) return res.redirect('signin')
-  if (req.user.role !== role) {
+  if (!req.isAuthenticated()) { 
+    req.flash('error_messages', `Please sign in first.`)
+    if (role === 'user') return res.redirect('/signin')
+    if (role === 'admin') return res.redirect('/admin/signin')
+  } else if (req.user.role !== role) {
     req.flash('error_messages', `Only ${role} is authorized.`)
-    if (role === 'user') return res.redirect('signin')
-    // if (role === 'admin')
+    req.logout()
+    if (role === 'user') return res.redirect('/signin')
+    if (role === 'admin') return res.redirect('/admin/signin')
   }
   next()
 }
