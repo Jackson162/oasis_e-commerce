@@ -7,7 +7,7 @@ const PAGE_OFFSET = 0
 module.exports = {
   getProducts: async (req, res) => {
     const dataInFetching = []
-    const productsPromise = Product.findAndCountAll({ raw: true, nest: true, offset: PAGE_OFFSET, limit: PAGE_LIMIT })
+    const productsPromise = Product.findAndCountAll({ raw: true, nest: true })
     const cartPromise = Cart.findByPk(req.session.cartId, { include: 'items' })
     dataInFetching.push(productsPromise, cartPromise)
     //code cannot start with '[' or '{'

@@ -40,5 +40,7 @@ router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '
 
 router.get('/admin/users', checkIfAdmin, adminController.getUsers)
 router.get('/admin/users/:userId/orders', checkIfAdmin, adminController.getOrders)
+router.get('/admin/products', checkIfAdmin, adminController.getProducts)
+router.get('/admin/products/:id', checkIfAdmin, adminController.getProduct)
 
 module.exports = router
