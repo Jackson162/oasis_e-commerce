@@ -17,4 +17,10 @@ module.exports = {
     return res.render('products', { products, cart, totalPrice })
   },
   
+  getProduct: async (req, res) => {
+    const { id } = req.params
+    let product = await Product.findOne({ where: { id } })
+    product = product.toJSON()
+    return res.render('product', { product })
+  }
 }

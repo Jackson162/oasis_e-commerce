@@ -16,6 +16,7 @@ const router = express.Router()
 router.get('/', (req, res, next) => res.redirect('/products'))
 
 router.get('/products', checkIfUser, productController.getProducts)
+router.get('/products/:id', checkIfUser, productController.getProduct)
 
 router.get('/cart', checkIfUser, cartController.getCart)
 router.post('/cart', checkIfUser, cartController.postCart)
