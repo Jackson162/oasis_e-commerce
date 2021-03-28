@@ -38,4 +38,6 @@ router.post('/signout', userController.signOut)
 router.get('/admin/signin', adminController.signInPage)
 router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '/admin/signin', failureFlash: true }), adminController.signIn)
 
+router.get('/admin/users', checkIfAdmin, adminController.getUsers)
+
 module.exports = router

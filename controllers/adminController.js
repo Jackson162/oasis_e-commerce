@@ -11,6 +11,12 @@ module.exports = {
       return res.redirect('/admin/signin')
     }
     req.flash('success_messages', 'Sign in successfully.')
-    return res.send('admin page')
+    return res.redirect('/admin/users')
+  },
+
+  getUsers: async (req, res) => {
+    let users = await User.findAll({ where: { role: 'user' } })
+    users = JSON.parse(JSON.stringify(users))
+    return res.render('admin/users', { users })
   }
 }
