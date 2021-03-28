@@ -2,6 +2,7 @@ const db = require('../models/index')
 const User = db.User
 const Order = db.Order
 const Product = db.Product
+const imgur = require('imgur')
 
 module.exports = {
   signInPage: (req, res) => res.render('admin/signin'),
@@ -41,4 +42,26 @@ module.exports = {
     product = product.toJSON()
     return res.render('admin/product', { product })
   },
+
+  getAddProductPage: (req, res) => res.render('admin/add_edit'),
+
+  postProduct: async (req, res) => {
+    const { name, price, description } = req.body
+    const { file } = req
+    console.log(file, name, price, description)
+    if (!name || !price || !description || !file ) {
+      console.log('create fail')
+      req.flash('error_messages', 'Every field is required.')
+      return res.redirect('/admin/products/add')
+    }
+    imgur.setClientId(process.env.IMGUR_CLIENT_ID)
+    let image = await imgur.uploadFile(file.path)
+    let product = await Product.create({
+      name,
+      price,
+      description,
+      image: image.link
+    })
+    return res.redirect(`/admin/products/${product.id}`)
+  }
 }

@@ -1,5 +1,6 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
@@ -9,6 +10,7 @@ const adminController = require('../controllers/adminController')
 
 const passport = require('../config/passport')
 const { checkIfUser, checkIfAdmin } = require('../utils/authenticators')
+const router = express.Router()
 
 /* GET home page. */
 router.get('/', (req, res, next) => res.redirect('/products'))
@@ -41,6 +43,9 @@ router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '
 router.get('/admin/users', checkIfAdmin, adminController.getUsers)
 router.get('/admin/users/:userId/orders', checkIfAdmin, adminController.getOrders)
 router.get('/admin/products', checkIfAdmin, adminController.getProducts)
+
+router.get('/admin/products/add', checkIfAdmin, adminController.getAddProductPage)
 router.get('/admin/products/:id', checkIfAdmin, adminController.getProduct)
+router.post('/admin/products', checkIfAdmin, upload.single('image'), adminController.postProduct)
 
 module.exports = router
