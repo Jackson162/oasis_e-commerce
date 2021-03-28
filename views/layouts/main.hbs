@@ -16,13 +16,19 @@
       <h5 class="my-0 mr-md-auto font-weight-normal">
         <a href="/products">Oasis</a>
       </h5>
+      {{#if isAuthenticated}}
       <nav class="my-2 my-md-0 mr-md-3">
+        {{#ifCond user.role 'user'}}
         <a class="p-2 text-dark" href="/cart">Cart</a>
         <a class="p-2 text-dark" href="/orders">Orders</a>
-        <form action="/signout" method="POST"> 
+        <form action="/signout" method="POST">
+        {{else}}
+        <form action="/admin/signout" method="POST">
+        {{/ifCond}}
           <button type="submit">Sign out</button>
         </form>
       </nav>
+      {{/if}}
     </div>
 
     <div class="container-fluid">

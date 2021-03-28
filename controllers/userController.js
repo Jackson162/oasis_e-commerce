@@ -43,10 +43,8 @@ module.exports = {
   },
   
   signOut: (req, res) => {
-    const role = req.user.role
     req.flash('success_messages', '登出成功！')
     req.logout()
-    if (role === 'user') return res.redirect('/signin')
-    if (role === 'admin') return res.redirect('/admin/signin')
+    return res.redirect('/signin')
   }
 }

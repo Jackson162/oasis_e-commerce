@@ -75,7 +75,6 @@ module.exports = {
     const { file } = req
     const { id } = req.params
     if (!name || !price || !description) {
-      console.log('edit fail')
       req.flash('error_messages', 'Every field except image is required.')
       return res.redirect(`/admin/products/${id}/edit`)
     }
@@ -96,5 +95,11 @@ module.exports = {
 
     
     return res.redirect(`/admin/products/${id}`)
+  },
+
+  signOut: (req, res) => {
+    req.flash('success_messages', '登出成功！')
+    req.logout()
+    return res.redirect('/admin/signin')
   }
 }

@@ -34,7 +34,7 @@ router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 router.get('/signin', userController.signInPage)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
-router.post('/signout', userController.signOut)
+router.post('/signout', checkIfUser, userController.signOut)
 
 // admin
 router.get('/admin/signin', adminController.signInPage)
@@ -50,5 +50,6 @@ router.get('/admin/products/:id', checkIfAdmin, adminController.getProduct)
 
 router.post('/admin/products', checkIfAdmin, upload.single('image'), adminController.postProduct)
 router.put('/admin/products/:id',  checkIfAdmin, upload.single('image'), adminController.editProduct)
+router.post('/admin/signout', checkIfAdmin, adminController.signOut)
 
 module.exports = router

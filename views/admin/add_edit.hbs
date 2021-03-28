@@ -24,4 +24,9 @@
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
+  {{#if product}}
+  <a href="/admin/products/{{product.id}}">back</a>
+  {{else}}
+  <a href="/admin/products">back</a>
+  {{/if}}
 </form>
