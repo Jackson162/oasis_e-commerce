@@ -48,9 +48,7 @@ module.exports = {
   postProduct: async (req, res) => {
     const { name, price, description } = req.body
     const { file } = req
-    console.log(file, name, price, description)
     if (!name || !price || !description || !file ) {
-      console.log('create fail')
       req.flash('error_messages', 'Every field is required.')
       return res.redirect('/admin/products/add')
     }
@@ -63,5 +61,40 @@ module.exports = {
       image: image.link
     })
     return res.redirect(`/admin/products/${product.id}`)
+  },
+
+  getEditProductPage: async (req, res) =>　{
+    const { id } = req.params
+    let product = await Product.findOne({ where: { id } })
+    product = product.toJSON()
+    return res.render('admin/add_edit', { product })
+  },
+
+  editProduct: async (req, res) => {
+    const { name, price, description } = req.body
+    const { file } = req
+    const { id } = req.params
+    if (!name || !price || !description) {
+      console.log('edit fail')
+      req.flash('error_messages', 'Every field except image is required.')
+      return res.redirect(`/admin/products/${id}/edit`)
+    }
+    let product = await Product.findOne({ where: { id } })
+
+    let image = null
+    if (file) {
+      imgur.setClientId(process.env.IMGUR_CLIENT_ID)
+      image = await imgur.uploadFile(file.path)
+    }
+
+    await product.update({ 
+      name,
+      price,
+      description,
+      image: image && file ? image.link : product.image
+    })
+
+    
+    return res.redirect(`/admin/products/${id}`)
   }
 }

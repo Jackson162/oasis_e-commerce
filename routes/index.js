@@ -45,7 +45,10 @@ router.get('/admin/users/:userId/orders', checkIfAdmin, adminController.getOrder
 router.get('/admin/products', checkIfAdmin, adminController.getProducts)
 
 router.get('/admin/products/add', checkIfAdmin, adminController.getAddProductPage)
+router.get('/admin/products/:id/edit', checkIfAdmin, adminController.getEditProductPage)
 router.get('/admin/products/:id', checkIfAdmin, adminController.getProduct)
+
 router.post('/admin/products', checkIfAdmin, upload.single('image'), adminController.postProduct)
+router.put('/admin/products/:id',  checkIfAdmin, upload.single('image'), adminController.editProduct)
 
 module.exports = router
