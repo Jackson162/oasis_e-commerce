@@ -1,5 +1,6 @@
 const db = require('../models/index')
 const User = db.User
+const Order = db.Order
 
 module.exports = {
   signInPage: (req, res) => res.render('admin/signin'),
@@ -18,5 +19,12 @@ module.exports = {
     let users = await User.findAll({ where: { role: 'user' } })
     users = JSON.parse(JSON.stringify(users))
     return res.render('admin/users', { users })
+  },
+
+  getOrders: async (req, res) => {
+    const { userId:UserId } = req.params
+    let orders = await Order.findAll({ where: { UserId }, include: 'items' })
+    orders = JSON.parse(JSON.stringify(orders))
+    return res.render('admin/orders', { orders })
   }
 }

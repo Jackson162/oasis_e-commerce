@@ -39,5 +39,6 @@ router.get('/admin/signin', adminController.signInPage)
 router.post('/admin/signin', passport.authenticate('local', { failureRedirect: '/admin/signin', failureFlash: true }), adminController.signIn)
 
 router.get('/admin/users', checkIfAdmin, adminController.getUsers)
+router.get('/admin/users/:userId/orders', checkIfAdmin, adminController.getOrders)
 
 module.exports = router
