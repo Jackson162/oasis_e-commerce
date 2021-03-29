@@ -60,7 +60,7 @@ module.exports = {
     }
 
     const mailOptions = {
-      from: process.env.MY_MAIL,
+      from: testMail,
       to: email,
       subject: `${order.name}，您的訂單成立`,
       text: `您的訂單成立，訂單編號: ${order.sn}，訂單ID: ${order.id}`
