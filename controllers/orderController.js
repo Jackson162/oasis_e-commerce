@@ -99,6 +99,7 @@ module.exports = {
     } while (existedOrder)
     const tradeInfo = getTradeInfo(order.amount, '產品敘述', testMail, sn)
     await order.update({ sn: tradeInfo['MerchantOrderNo'] })
+    order = order.toJSON()
     return res.render('payment', { order,  tradeInfo })
 
   },

@@ -1,22 +1,24 @@
 <div class="row">
+  <div class="col-md-12 d-flex align-items-end">
   <h1>Products Page</h1>
-  <h4><a href="/admin/users">Users Page</a></h4>
-  <h5><a href="/admin/products/add">Add product</a></h5>
+  <a class="mb-2 ml-auto text-dark" href="/admin/users">Users Page</a>
+  <a class="mb-2 ml-3 text-dark" href="/admin/products/add">Add product</a>
+  </div>
 </div>
 <div class="row"  style="justify-content: center;">
   <div class="col-md-12">
         <div class="row">
             {{#each products}}
             <div class="col-md-3">
-              <div class="card mb-4 shadow-sm" style="height: 430px;">
+              <div class="card mb-4 shadow-sm" style="height: 430px; background-color: #FCEDC5; border-style: none;">
                 <img class="bd-placeholder-img card-img-top" width="100%" height="225" src={{this.image}}></img>
                 <div class="card-body">
                   <p class="card-text">
-                    <h4><a href="/admin/products/{{this.id}}">{{this.id}} {{this.name}}</a></h4>
+                    <h5><a class="text-dark" href="/admin/products/{{this.id}}">{{this.id}}. {{this.name}}</a></h5>
                     <span>{{this.description}}</span>
                   </p>
                   <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">$ {{this.price}}</small>
+                    <small class="text-dark">$ {{this.price}}</small>
                   </div>
                 </div>
               </div>

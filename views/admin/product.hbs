@@ -1,13 +1,15 @@
-<div class="row">
+<div class="row justify-content-center">
   <img class="img-responsive center-block" src="{{product.image}}" style="width: 250px;margin-bottom: 25px;">
-  <div class="col-md-12">
-    <h1>{{product.name}}</h1>
-    <h2>{{product.price}}</h2>
+  <div class="col-md-12 d-flex flex-column align-items-center">
+    <h1>{{product.id}}. {{product.name}}</h1>
+    <h2>${{product.price}}</h2>
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-12 d-flex justify-content-center">
     <p>{{product.description}}</p>
   </div>
+  <div class="col-md-2 d-flex justify-content-between">
+    <a class="text-dark mr-3" href="/admin/products/{{product.id}}/edit">edit</a>
+    <a class="text-dark" href="/admin/products">products page</a> 
+  </div>
 </div>
-<a href="/admin/products/{{product.id}}/edit">edit</a>
-<a href="/admin/products">products page</a>

@@ -23,10 +23,12 @@
     <textarea class="form-control" id="description" name="description" rows="3">{{product.description}}</textarea>
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn text-white">Submit</button>
+  <button type="button" class="btn">
   {{#if product}}
-  <a href="/admin/products/{{product.id}}">back</a>
+  <a class="text-white" href="/admin/products/{{product.id}}">back</a>
   {{else}}
-  <a href="/admin/products">back</a>
+  <a class="text-white" href="/admin/products">back</a>
   {{/if}}
+  </button>
 </form>

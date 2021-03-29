@@ -1,6 +1,8 @@
 <div class="row">
+  <div class="col-md-12 d-flex align-items-end">
   <h1>Users Page</h1>
-  <h4><a href="/admin/products">Products Page</a></h4>
+  <a class="ml-auto text-dark mb-2" href="/admin/products">Products Page</a>
+  </div>
 </div>
 <table class="table">
   <thead>
@@ -17,7 +19,7 @@
       <th scope="row">{{this.id}}</th>
       <td>{{this.email}}</td>
       <td>{{this.role}}</td>
-      <td><a href="/admin/users/{{this.id}}/orders">orders</a></td>
+      <td><a class="text-dark" href="/admin/users/{{this.id}}/orders">view orders</a></td>
     </tr>
     {{/each}}
   </tbody>

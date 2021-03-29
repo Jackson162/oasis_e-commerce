@@ -24,7 +24,7 @@ app.set('view engine', 'hbs')
 app.use(session({
   secret: process.env.SESSION_SECRET,
   name: 'Jackson',
-  cookie: { maxAge: 80000 },
+  // cookie: { maxAge: 80000 },
   resave: false,
   saveUninitialized: true,
 }))
