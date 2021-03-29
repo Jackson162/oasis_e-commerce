@@ -1,17 +1,16 @@
 # Oasis e-commerce
-============
+
 Oasis is a e-commerce website that allows you to purchase vital things in the life. With Oasis, immortality is not the impossible anymore. <br> 
 
 ## Features
-============
+
 1. customer is able to store products in cart.
 2. customer is able to create orders.
 3. customer is able to pay via third-party payment service.
 4. admin is able to view users and their orders
 5. admin is able to create, edit, view products.
 
-## prerequisites
-================
+## Prerequisites
 
 **global packages**
 
@@ -30,8 +29,7 @@ Please check `dependencies` in `package.json`.<br>
 3. mysql2: v2.2.5
 4. MySQL workbench 8.0.23.0
 
-## installation and execution
-=======
+## Installation and Execution
 
 Please check `scripts` in `package.json` for commands.<br> 
 
