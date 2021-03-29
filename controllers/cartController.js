@@ -12,7 +12,8 @@ module.exports = {
     cart = cart.toJSON()
     if(!cart.items) cart.items = []
     const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-    return res.render('cart', { cart, totalPrice })
+    req.session.cartId = cart.id
+    return req.session.save(() => res.render('cart', { cart, totalPrice }))
   },
 
   postCart: async (req, res) => {
