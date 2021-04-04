@@ -10,7 +10,7 @@ chai.use(sinonChai)
 
 describe('#user features test', function () {
   context('#sign up feature', function () {
-    describe('GET /signup', function () {
+    describe('#render sign up page', function () {
       before(function () {})
 
       it('GET /signup', function (done) {
