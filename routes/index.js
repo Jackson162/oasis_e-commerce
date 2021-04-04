@@ -15,14 +15,14 @@ const router = express.Router()
 /* GET home page. */
 router.get('/', (req, res, next) => res.redirect('/products'))
 
-router.get('/products', checkIfUser, productController.getProducts)
-router.get('/products/:id', checkIfUser, productController.getProduct)
+router.get('/products', productController.getProducts)
+router.get('/products/:id', productController.getProduct)
 
-router.get('/cart', checkIfUser, cartController.getCart)
-router.post('/cart', checkIfUser, cartController.postCart)
-router.post('/cartItem/:id/add', checkIfUser, cartController.addCartItem)
-router.post('/cartItem/:id/sub', checkIfUser, cartController.subCartItem)
-router.delete('/cartItem/:id', checkIfUser, cartController.deleteCartItem)
+router.get('/cart', cartController.getCart)
+router.post('/cart', cartController.postCart)
+router.post('/cartItem/:id/add', cartController.addCartItem)
+router.post('/cartItem/:id/sub',cartController.subCartItem)
+router.delete('/cartItem/:id', cartController.deleteCartItem)
 
 router.get('/orders', checkIfUser, orderController.getOrders)
 router.post('/order', checkIfUser, orderController.postOrder)

@@ -62,10 +62,15 @@
           {{/ifCond}}
         >Oasis</a>
       </h5>
-      {{#if isAuthenticated}}
       <nav class="my-2 my-md-0 mr-md-3 d-flex">
+      {{#ifCond user.role 'admin'}}
+      {{else}}
+      <a class="p-2 text-white" href="/cart">Cart</a>
+      <a class="p-2 text-white" href="/products">Products</a>
+      {{/ifCond}}
+      
+      {{#if isAuthenticated}}
         {{#ifCond user.role 'user'}}
-        <a class="p-2 text-white" href="/cart">Cart</a>
         <a class="p-2 text-white" href="/orders">Orders</a>
         <form action="/signout" method="POST">
         {{else}}
@@ -75,8 +80,13 @@
         {{/ifCond}}
           <button class="p-2 text-white bg-transparent" style="border-style: none;" type="submit">Sign out</button>
         </form>
-      </nav>
+      {{else}}
+        <form action="/signin" method="POST">
+          <button class="p-2 text-white bg-transparent" style="border-style: none;" type="submit">Sign in</button>
+        </form>
       {{/if}}
+
+      </nav>
     </div>
 
     <div class="container-fluid">
