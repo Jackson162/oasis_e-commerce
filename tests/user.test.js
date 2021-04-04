@@ -52,7 +52,7 @@ describe('#user features test', function () {
     })
   })
 
-  context('#Sign in feature', function() {
+  context('#sign in feature', function() {
     describe('#render user sign in page', function () {
       before(function () {})
 
