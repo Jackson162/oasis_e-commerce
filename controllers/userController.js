@@ -11,13 +11,13 @@ module.exports = {
     const { name, email, password, passwordCheck } = req.body
      // confirm password
     if(passwordCheck !== password) {
-      req.flash('error_messages', '兩次密碼輸入不同！')
+      req.flash('error_messages', 'password check and password does not match!')
       return res.redirect('/signup')
     } else {
       // confirm unique user
       const user = await User.findOne({ where: { email: email } })
       if(user){
-        req.flash('error_messages', '此信箱已被註冊！')
+        req.flash('error_messages', 'This email was used!')
         return res.redirect('/signup')
       } else {
         await User.create({
@@ -26,7 +26,11 @@ module.exports = {
           email: email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
         })
-        req.flash('success_messages', '成功註冊帳號！')
+        if (!user) {
+          req.flash('error_messages', 'Creation of the account fail!')
+          return res.redirect('/signup')
+        }
+        req.flash('success_messages', 'The account created successfully!')
         return res.redirect('/signin')
       }    
     }

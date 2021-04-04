@@ -1,9 +1,11 @@
+const helpers = require('./_helpers')
+
 const authenticator = (req, res, next, role) => {
-  if (!req.isAuthenticated()) { 
+  if (!helpers.ensureAuthenticated(req)) { 
     req.flash('error_messages', `Please sign in first.`)
     if (role === 'user') return res.redirect('/signin')
     if (role === 'admin') return res.redirect('/admin/signin')
-  } else if (req.user.role !== role) {
+  } else if (helpers.getUser(req).role !== role) {
     req.flash('error_messages', `Only ${role} is authorized.`)
     req.logout()
     if (role === 'user') return res.redirect('/signin')
