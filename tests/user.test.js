@@ -41,7 +41,7 @@ describe('#user features test', function () {
           .send('email=user1@example.com&password=1&passwordCheck=1')
           .expect(302) //redirection
       
-        let user = await User.findOne({ where: { email: 'user1@example.com' } })
+        const user = await User.findOne({ where: { email: 'user1@example.com' } })
         expect(user.role).to.equal('user')
         expect(user.email).to.equal('user1@example.com')
       })

@@ -20,7 +20,7 @@
             <span>{{this.name}}</span>
           </div>
         </td>
-        <td><p>$ {{this.price}}</p></td>
+        <td><p>${{this.price}}</p></td>
         <td>
           <div style="display: flex;">
             <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
@@ -48,7 +48,7 @@
         <td></td>
         <td></td>
         <td style="text-align: right;"><h2>Total: </h2></td>
-        <td><h2>{{totalPrice}}</h2></td>
+        <td><h2>${{totalPrice}}</h2></td>
         <td></td>
       </tr>
     </tbody>
