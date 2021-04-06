@@ -10,8 +10,6 @@ const { expect } = chai
 const Product = db.Product
 const OrderItem = db.OrderItem
 const Order = db.Order
-const Cart = db.Cart
-const CartItem = db.CartItem
 chai.use(sinonChai)
 
 describe('order features test', function () {
@@ -23,7 +21,7 @@ describe('order features test', function () {
         ).returns(true)
         this.getUser = sinon.stub(
           helpers, 'getUser'
-        ).returns({ id: 1, email: 'user1@example.com', role: 'admin' })
+        ).returns({ id: 1, email: 'root@example.com', role: 'admin' })
 
         await emptyDB()
         const promiseArr = []

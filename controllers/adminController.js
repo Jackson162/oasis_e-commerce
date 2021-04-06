@@ -48,17 +48,20 @@ module.exports = {
   postProduct: async (req, res) => {
     const { name, price, description } = req.body
     const { file } = req
-    if (!name || !price || !description || !file ) {
+    if (!name || !price || !description ) {
       req.flash('error_messages', 'Every field is required.')
       return res.redirect('/admin/products/add')
     }
-    imgur.setClientId(process.env.IMGUR_CLIENT_ID)
-    let image = await imgur.uploadFile(file.path)
-    let product = await Product.create({
+    let image = null
+    if (file) {
+      imgur.setClientId(process.env.IMGUR_CLIENT_ID)
+      image = await imgur.uploadFile(file.path)
+    }
+    const product = await Product.create({
       name,
       price,
       description,
-      image: image.link
+      image: image ? image.link : null
     })
     return res.redirect(`/admin/products/${product.id}`)
   },
