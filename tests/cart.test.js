@@ -11,7 +11,7 @@ const CartItem = db.CartItem
 const Cart = db.Cart
 chai.use(sinonChai)
 
-describe('#cart feature test', function () {
+describe('#cart features test', function () {
   context('#cart manipulation features', function () {
     describe('#create cart and render cart page', function () {
       let cookies = ''

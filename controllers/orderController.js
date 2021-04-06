@@ -8,25 +8,26 @@ const OrderItem = db.OrderItem
 const Cart = db.Cart
 const Payment = db.Payment
 const testMail = process.env.MY_MAIL
+const helpers = require('../utils/_helpers')
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: testMail,
-    pass: process.env.MY_PASS
-  }
-})
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: testMail,
+//     pass: process.env.MY_PASS
+//   }
+// })
 
 module.exports = {
   getOrders: async (req, res) => {
-    const { id:UserId } = req.user
+    const { id:UserId } = helpers.getUser(req)
     let orders = await Order.findAll({ where: { UserId }, include: 'items' })
     orders = JSON.parse(JSON.stringify(orders))
     return res.render('orders', { orders })
   },
 
   postOrder: async (req, res) => {
-    const { id:UserId } = req.user
+    const { id:UserId } = helpers.getUser(req)
     const { cartId, name, address, phone, email, shipping_status, payment_status, amount } = req.body
     const dataInProcessing = []
     // find the cart of the user
@@ -48,7 +49,6 @@ module.exports = {
     //add cartItem to new order => create orderItem
     const orderItems = []
     for (let i = 0; i < cart.items.length; i++) {
-      console.log(order.id, cart.items[i].id)
       orderItems.push(
         OrderItem.create({
           OrderId: order.id,
@@ -59,25 +59,27 @@ module.exports = {
       )
     }
 
-    const mailOptions = {
-      from: testMail,
-      to: email,
-      subject: `${order.name}，您的訂單成立`,
-      text: `您的訂單成立，訂單編號: ${order.sn}，訂單ID: ${order.id}`
-    }
+    // const mailOptions = {
+    //   from: testMail,
+    //   to: email,
+    //   subject: `${order.name}，您的訂單成立`,
+    //   text: `您的訂單成立，訂單ID: ${order.id}`
+    // }
 
     await Promise.all(orderItems)
-    await transporter.sendMail(mailOptions, (err, info) => {
-      if (err) return console.log(err)
-      console.log(`Email sent to ${info.response}`)
-    })
+    // await transporter.sendMail(mailOptions, (err, info) => {
+    //   if (err) return console.log(err)
+    //   console.log(`Email sent to ${info.response}`)
+    // })
     res.redirect('/orders')
   },
 
   cancelOrder: async (req, res) => {
-    const { id:UserId } = req.user
-    const order = await Order.findOne({ where: { id: req.params.id, UserId } })
-    await order.update({
+    const { id:UserId } = helpers.getUser(req)
+    let order = await Order.findOne({ where: { id: req.params.id, UserId } })
+    
+    if (order.payment_status !== '0') return res.redirect('back')
+    order = await order.update({
       ...req.body,
       shipping_status: '-1',
       payment_status: '-1'
@@ -86,7 +88,7 @@ module.exports = {
   },
 
   getPayment: async (req, res) => {
-    const { id:UserId } = req.user
+    const { id:UserId } = helpers.getUser(req)
     console.log('===== getPayment =====')
     console.log(req.params.id)
     console.log('==========')
@@ -113,6 +115,7 @@ module.exports = {
     console.log('decrypted data: ', data)
 
     let order = await Order.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } })
+    //should update only payment is successfully
     await order.update({ payment_status: 1 })
 
     let payment = await Payment.findOne({ where: { sn: data['Result']['MerchantOrderNo'] } })

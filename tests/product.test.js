@@ -9,8 +9,8 @@ const emptyDB = require('../utils/emptyDB')
 const Product = db.Product
 chai.use(sinonChai)
 
-describe('#product feature test', function () {
-  context('#display products', function () {
+describe('#product features test', function () {
+  context('#products manipulation features', function () {
     describe('#render multiple products page', function() {
       before(async function () {
         await emptyDB()

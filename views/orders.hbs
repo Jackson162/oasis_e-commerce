@@ -14,13 +14,13 @@
         <tr>
           <td>{{this.name}}</td>
           <td>{{this.OrderItem.quantity}}</td>
-          <td>{{this.price}}</td>
+          <td>${{this.OrderItem.price}}</td>
         </tr>
         {{/each}}
         <tr>
           <td></td>
           <td style="text-align: right;"><h4>Total: </h4></td>
-          <td><h4>{{this.amount}}</h4></td>
+          <td><h4>${{this.amount}}</h4></td>
         </tr>
       </tbody>
     </table>
@@ -28,7 +28,7 @@
 
   <div>
     <ul>
-      <li>{{this.id}}</li>
+      <li>order id: {{this.id}}</li>
       <li>name: {{this.name}}</li>
       <li>address: {{this.address}}</li>
       <li>phone: {{this.phone}}</li>

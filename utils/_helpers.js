@@ -1,4 +1,4 @@
 module.exports = {
-  ensureAuthenticated: (res) => res.isAuthenticated(),
-  getUser: (res) => res.user 
+  ensureAuthenticated: (req) => req.isAuthenticated(),
+  getUser: (req) => req.user 
 }

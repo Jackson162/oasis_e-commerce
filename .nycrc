@@ -2,6 +2,7 @@
   "include": [
     "controllers/userController.js",
     "controllers/productController.js",
-    "controllers/cartController.js"
+    "controllers/cartController.js",
+    "controllers/orderController.js"
   ]
 }
