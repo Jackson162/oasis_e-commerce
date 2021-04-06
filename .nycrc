@@ -3,6 +3,7 @@
     "controllers/userController.js",
     "controllers/productController.js",
     "controllers/cartController.js",
-    "controllers/orderController.js"
+    "controllers/orderController.js",
+    "controllers/adminController.js"
   ]
 }

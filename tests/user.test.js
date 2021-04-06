@@ -58,7 +58,7 @@ describe('#user features test', function () {
 
       it('GET /signin', async function () {
         const response = await request(app)
-          .get('/signup')
+          .get('/signin')
           .set('Accept', 'text/html')
           .expect(200)
         
