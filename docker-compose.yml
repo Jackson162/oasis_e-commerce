@@ -1,0 +1,14 @@
+version: '2.4'
+
+services:
+  oasis:     
+    build: 
+      context: .
+      target: dev
+    image: oasis-dev
+    volumes:
+      - .:/node/app
+      # use empty volume in bind-mount to hide host node modules
+      - /node/app/node_modules
+    ports:
+      - 3000:3000
