@@ -10,7 +10,8 @@ const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const indexRouter = require('./routes/index')
 const passport = require('./config/passport')
-const PORT = process.env.PORT || 3000
+const PORT = process.env.NODE_ENV === 'test'? 9229 : process.env.PORT || 3000
+console.log(PORT)
 const app = express()
 // view engine setup
 app.engine('hbs', exphbs({ 
@@ -65,8 +66,33 @@ app.use(function(err, req, res, next) {
   res.render('error')
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`This server is listening to http://localhost:${PORT}`)
 })
 
-module.exports = app;
+function shutdown() {
+  // NOTE: server.close is for express based apps
+  // If using hapi, use `server.stop`
+  server.close(function onServerClosed (err) {
+    if (err) {
+      console.error(err);
+      process.exitCode = 1;
+		}
+		process.exit();
+  })
+}
+
+// quit on ctrl-c when running docker in terminal, not work with powershell but bash
+process.on('SIGINT', function onSigint () {
+	console.info('Got SIGINT (aka ctrl-c in docker). Graceful shutdown ', new Date().toISOString());
+  shutdown()
+});
+
+// quit properly on docker stop
+process.on('SIGTERM', function onSigterm () {
+  console.log('It stops')
+  console.info('Got SIGTERM (docker container stop). Graceful shutdown ', new Date().toISOString());
+  shutdown()
+})
+
+module.exports = app

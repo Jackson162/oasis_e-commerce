@@ -12,9 +12,9 @@ const OrderItem = db.OrderItem
 const Order = db.Order
 chai.use(sinonChai)
 
-describe('order features test', function () {
-  context('orders manipulation test', function () {
-    describe('render orders page', function () {
+describe('admin order features test', function () {
+  context('admin orders manipulation test', function () {
+    describe('render admin orders page', function () {
       before(async function () {
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
