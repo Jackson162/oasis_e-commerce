@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "set \"NODE_ENV=test\" && npx mocha 'tests/**/*.js' --exit --recursive",
-    "coverage": "set \"NODE_ENV=test\" && npx nyc npm run test"
+    "test": "NODE_ENV=test && echo $NODE_ENV && npx mocha 'tests/**/*.js' --exit --recursive",
+    "coverage": "NODE_ENV=test && echo $NODE_ENV && npx nyc npm run test"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
