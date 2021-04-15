@@ -4,12 +4,10 @@ ENV NODE_ENV=production
 # server is listening to 3000
 ARG PORT=3000
 ENV PORT $PORT
-EXPOSE 3000
+EXPOSE 3000 9229
 WORKDIR /node
 COPY package*.json ./
 RUN npm install --only=production && npm cache clean -f
-
-WORKDIR /node/app
 COPY . .
 CMD ["node", "app.js"]
 
