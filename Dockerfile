@@ -1,23 +1,33 @@
 # inherit node 10.15.0 Debian (same version as development)
-FROM node:10.15.0 as prod
+FROM node:10.15.0 as base
 ENV NODE_ENV=production
-# server is listening to 3000
-ARG PORT=3000
-ENV PORT $PORT
 EXPOSE 3000 9229
 WORKDIR /node
 COPY package*.json ./
-RUN npm install --only=production && npm cache clean -f
-COPY . .
-CMD ["node", "app.js"]
+# not install devDependency
+RUN npm config list \ 
+    && npm ci --only=prod \
+    && npm cache clean -f
 
-FROM prod as dev
+# do not need to copy code with bind-mount
+FROM base as dev
 ENV NODE_ENV=development
-RUN npm install --only=development
+RUN npm config list
+RUN npm install --only=dev
 RUN npm i nodemon mocha -g 
 CMD ["nodemon", "-L", "app.js"]
 
-
 FROM dev as test
 ENV NODE_ENV=test
+COPY . .
 CMD ["npm", "run", "test"]
+# use to remove undesired files, if you do it in previous image layer, the files
+# will still be stored in the old image layer in the image. 
+# It just don't show in the latest layer.
+FROM test as rm-test
+RUN rm -rf ./tests && rm -rf ./node_modules
+
+FROM base as prod
+ENV NODE_ENV=production
+COPY --from=rm-test /node /node
+CMD ["node", "app.js"]
