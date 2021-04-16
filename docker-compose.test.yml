@@ -1,0 +1,21 @@
+version: '3.1'
+# compose for Travis CI
+services:
+  oasis:     
+    build: 
+      context: .
+      target: test
+    image: oasis-test
+    ports:
+      - 9229:9229
+      - 80:80
+      - 443:443
+    environment:
+      SESSION_SECRET: $SESSION_SECRET
+      MY_MAIL: $MY_MAIL
+      MY_PASS: SKIP
+      MERCHANT_ID: $MERCHANT_ID
+      HASH_KEY: $HASH_KEY
+      HASH_IV: $HASH_IV
+      IMGUR_CLIENT_ID: $IMGUR_CLIENT_ID
+      BASE_URL: $BASE_URL
