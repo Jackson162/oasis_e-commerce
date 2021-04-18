@@ -20,7 +20,7 @@ before_install:
   # check Docker version
   - docker --version
   # create db
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS ac_twitter_workspace_test default character set utf8mb4 collate utf8mb4_unicode_ci;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS oasis_test default character set utf8mb4 collate utf8mb4_unicode_ci;'
   # db migrate
   - docker-compose -f docker-compose.test.yml run oasis npx sequelize db:migrate
 
