@@ -5,12 +5,16 @@ services:
     build: 
       context: .
       target: test
-    image: oasis-test
+    image: jackson162/oasis-test
+    networks:
+      # travis default is Linux, connect to host network,
+      # so container can access DB on docker host via 127.0.0.1
+      - host
     ports:
       - 9229:9229
-      - 80:80
-      - 443:443
+      - 3000:3000   
     environment:
+      CI_ENV: travis
       SESSION_SECRET: $SESSION_SECRET
       MY_MAIL: $MY_MAIL
       MY_PASS: SKIP

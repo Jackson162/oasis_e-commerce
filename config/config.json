@@ -25,5 +25,11 @@
     "logging": false,
     "ssl": "Amazon RDS"
   },
+  "travis": {
+    "username": "travis",
+    "database": "oasis_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
   }
 }

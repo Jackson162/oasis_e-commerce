@@ -18,7 +18,7 @@ RUN npm i nodemon mocha -g
 CMD ["nodemon", "-L", "app.js"]
 
 FROM dev as test
-ENV NODE_ENV=test
+ENV NODE_ENV=travis
 COPY . .
 CMD ["npm", "run", "test"]
 # use to remove undesired files, if you do it in previous image layer, the files
