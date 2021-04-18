@@ -20,13 +20,13 @@ module.exports = {
         req.flash('error_messages', 'This email was used!')
         return res.redirect('/signup')
       } else {
-        await User.create({
+        const newUser = await User.create({
           role: 'user',
           name: name,
           email: email,
           password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
         })
-        if (!user) {
+        if (!newUser) {
           req.flash('error_messages', 'Creation of the account fail!')
           return res.redirect('/signup')
         }
