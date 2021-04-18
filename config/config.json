@@ -16,10 +16,20 @@
     "logging": false
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "",
+    "port": 3306,
+    "password": "",
+    "database": "oasis",
+    "host": "",
+    "dialect": "mysql",
+    "logging": false,
+    "ssl": "Amazon RDS"
+  },
+  "travis": {
+    "username": "travis",
+    "database": "oasis_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }

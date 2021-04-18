@@ -10,7 +10,7 @@ const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const indexRouter = require('./routes/index')
 const passport = require('./config/passport')
-const PORT = process.env.NODE_ENV === 'test' ? 9229 : process.env.PORT || 3000
+const PORT = process.env.NODE_ENV === 'test' ? (process.env.PORT || 9229) : (process.env.PORT || 3000)
 const app = express()
 // view engine setup
 app.engine('hbs', exphbs({ 
@@ -77,7 +77,7 @@ function shutdown() {
       console.error(err);
       process.exitCode = 1;
 		}
-		process.exit();
+		process.exit()
   })
 }
 

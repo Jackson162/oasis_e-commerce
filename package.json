@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "NODE_ENV=test && echo $NODE_ENV && npx mocha 'tests/**/*.js' --exit --recursive",
+    "test": "echo $NODE_ENV && npx mocha 'tests/**/*.js' --exit --recursive",
     "coverage": "NODE_ENV=test && echo $NODE_ENV && npx nyc npm run test"
   },
   "dependencies": {

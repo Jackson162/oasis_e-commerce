@@ -1,0 +1,22 @@
+version: '3.6'
+# compose for Travis CI
+services:
+  oasis:     
+    build: 
+      context: .
+      target: test
+    image: jackson162/oasis-test  
+    # travis default is Linux, connect to host network,
+    # so container can access DB on docker host via 127.0.0.1
+    # expose port is invalid now
+    network_mode: "host"
+    environment:
+      CI_ENV: travis
+      SESSION_SECRET: $SESSION_SECRET
+      MY_MAIL: $MY_MAIL
+      MY_PASS: SKIP
+      MERCHANT_ID: $MERCHANT_ID
+      HASH_KEY: $HASH_KEY
+      HASH_IV: $HASH_IV
+      IMGUR_CLIENT_ID: $IMGUR_CLIENT_ID
+      BASE_URL: $BASE_URL

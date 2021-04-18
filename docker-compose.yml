@@ -1,13 +1,20 @@
-version: '3.1'
-
+version: '3.6'
+# compose for AWS elastic beanstalk docker Linux 2
 services:
-  oasis:     
-    build: 
-      context: .
-      target: dev
-    image: oasis-dev
+  oasis:   
+    image: jackson162/oasis-prod
+    network_mode: "host"
     volumes:
-      - .:/node
-    ports:
-      - 3000:3000
-      - 9229:9229
+      - ${EB_LOG_BASE_DIR}/oasis:../var/log/
+    environment:
+      SESSION_SECRET: $SESSION_SECRET
+      MY_MAIL: $MY_MAIL
+      MY_PASS: SKIP
+      MERCHANT_ID: $MERCHANT_ID
+      HASH_KEY: $HASH_KEY
+      HASH_IV: $HASH_IV
+      IMGUR_CLIENT_ID: $IMGUR_CLIENT_ID
+      BASE_URL: $BASE_URL
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_ENDPOINT: $DB_ENDPOINT
