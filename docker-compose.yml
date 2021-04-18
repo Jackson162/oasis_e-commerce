@@ -1,14 +1,9 @@
-version: '3.1'
+version: '3.9'
 # compose for AWS elastic beanstalk docker Linux 2
 services:
   oasis:   
     image: jackson162/oasis-prod
-    networks:
-      - host
-    ports:
-      - 8080:8080
-      - 3000:3000
-      - 9229:9229
+    network_mode: "host"
     volumes:
       - ${EB_LOG_BASE_DIR}/oasis:../var/log/
     environment:

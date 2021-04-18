@@ -1,18 +1,15 @@
-version: '3.1'
+version: '3.9'
 # compose for Travis CI
 services:
   oasis:     
     build: 
       context: .
       target: test
-    image: jackson162/oasis-test
-    networks:
-      # travis default is Linux, connect to host network,
-      # so container can access DB on docker host via 127.0.0.1
-      - host
-    ports:
-      - 9229:9229
-      - 3000:3000   
+    image: jackson162/oasis-test  
+    # travis default is Linux, connect to host network,
+    # so container can access DB on docker host via 127.0.0.1
+    # expose port is invalid now
+    network_mode: "host"
     environment:
       CI_ENV: travis
       SESSION_SECRET: $SESSION_SECRET
