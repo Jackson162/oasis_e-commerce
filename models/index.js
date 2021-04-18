@@ -11,6 +11,14 @@ const db = {};
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else if (env === 'production') {
+  sequelize = new Sequelize('oasis', process.env['DB_USER'], process.env['DB_PASSWORD'], {
+    host: process.env['DB_ENDPOINT'],
+    port: 3306,
+    dialect: 'mysql',
+    logging: false,
+    ssl: 'Amazon RDS',
+  })
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
