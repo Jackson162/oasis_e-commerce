@@ -3,11 +3,14 @@ version: '3.1'
 services:
   oasis:   
     image: jackson162/oasis-prod
+    networks:
+      - host
     ports:
+      - 8080:8080
       - 3000:3000
       - 9229:9229
-      - 80:80
-      - 443:443
+    volumes:
+      - ${EB_LOG_BASE_DIR}/oasis:../var/log/
     environment:
       SESSION_SECRET: $SESSION_SECRET
       MY_MAIL: $MY_MAIL
