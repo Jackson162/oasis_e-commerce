@@ -5,7 +5,7 @@ services:
     image: jackson162/oasis-prod
     network_mode: "host"
     volumes:
-      - ${EB_LOG_BASE_DIR}/oasis:../var/log/
+      - ${EB_LOG_BASE_DIR}/oasis:/var/log
     environment:
       SESSION_SECRET: $SESSION_SECRET
       MY_MAIL: $MY_MAIL
