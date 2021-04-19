@@ -1,7 +1,7 @@
 # inherit node 10.15.0 Debian (same version as development)
 FROM node:10.15.0 as base
 ENV NODE_ENV=production
-EXPOSE 3000 9229
+EXPOSE 3000 9229 80
 WORKDIR /node
 COPY package*.json ./
 # not install devDependency
