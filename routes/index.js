@@ -13,7 +13,7 @@ const { checkIfUser, checkIfAdmin } = require('../utils/authenticators')
 const router = express.Router()
 
 /* GET home page. */
-router.get('/', (req, res, next) => res.redirect('/products'))
+router.get('/', (req, res, next) => res.status(200).redirect('/products'))
 
 router.get('/products', productController.getProducts)
 router.get('/products/:id', productController.getProduct)
