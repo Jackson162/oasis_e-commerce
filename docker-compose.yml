@@ -3,7 +3,10 @@ version: '3.6'
 services:
   oasis:   
     image: jackson162/oasis-prod
-    network_mode: "host"
+    ports:
+      - 8080:8080
+      - 3000:3000
+      - 9229:9229
     volumes:
       - ${EB_LOG_BASE_DIR}/oasis:/var/log
     environment:
