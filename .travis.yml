@@ -1,3 +1,6 @@
+branches:
+  only:
+  - master
 language: node_js
 node_js:
     - "10.15.0"
@@ -29,8 +32,10 @@ script:
   - docker-compose -f docker-compose.test.yml up --exit-code-from oasis
 
 after_success:
+  - echo $SHA
   # build production images latest and SHA
-  - docker image build -t jackson162/oasis-prod:latest -t jackson162/oasis-prod:$SHA --target prod
+  - docker image build -t jackson162/oasis-prod:latest --target prod ./
+  - docker image tag jackson162/oasis-prod:latest jackson162/oasis-prod:$SHA
   # login Docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # upload images
